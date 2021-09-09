@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block page_title %}LED Panel{% endblock %}
+
+{% block body %}
+
+    {{ super() }}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <button type="button" class="btn btn-danger">Red</button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success">Green</button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary">Blue</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $('button').click(function() {
+                $.ajax({
+                    url: '{{ url_for("FUN_led") }}',
+                    type: 'POST',
+                    data: {
+                        color: $(this).text()
+                    }
+                });
+            });
+        });
+    </script>
+    
+{% endblock %}
