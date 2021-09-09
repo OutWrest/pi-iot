@@ -2,7 +2,9 @@ import os
 import datetime
 import hashlib
 from flask import Flask, session, url_for, redirect, render_template, request, abort, flash
-from lib.leds import *
+from leds import new_strip
+
+strip = new_strip(300)
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -27,7 +29,7 @@ def FUN_led_p():
     
     rgb = colors.get(color, (0, 0, 0))
 
-    colorWipe(Color(*rgb))
+    strip.colorWipe(strip.getColor(*rgb))
 
     return render_template("led.html")
 
