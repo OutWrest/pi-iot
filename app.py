@@ -25,7 +25,9 @@ def FUN_led_p():
 
     color = request.form.get('color').lower()
     
-    print(color)
+    rgb = colors.get(color, (0, 0, 0))
+
+    colorWipe(*rgb)
 
     return render_template("led.html")
 
