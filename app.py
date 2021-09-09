@@ -27,7 +27,7 @@ def FUN_led_p():
     
     rgb = colors.get(color, (0, 0, 0))
 
-    colorWipe(*rgb)
+    colorWipe(Color(*rgb))
 
     return render_template("led.html")
 
