@@ -6,8 +6,7 @@ from parse import *
 
 # INTI control 
 strip = new_strip(300)
-
-strip.changeBrightness(20)
+strip.show()
 
 # INIT
 funcs = {
