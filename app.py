@@ -6,7 +6,6 @@ from parse import *
 
 # INTI control 
 strip = new_strip(300)
-last = None
 
 # INIT
 funcs = {
@@ -17,13 +16,11 @@ q = queue.Queue()
 
 def stripLoop():
     while True:
-        if q.empty():
-            if last:
-                func, params = last
-            continue
+        if q.qsize() == 1:
+            func, params = q.get()
+            q.put((func, params))
         else:
             func, params = q.get()
-            last = func, params
             q.task_done()
 
         func(*params)

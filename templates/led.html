@@ -34,18 +34,18 @@
                     url: '{{ url_for("FUN_led") }}',
                     type: 'POST',
                     data: {
-                        func: $(this).func,
-                        args: $(this).args
+                        func: $(this).prop("func"),
+                        args: $(this).prop("args")
                     }
                 });
             });
         });
 
-        let last_brightness = $('brightness').value;
+        let last_brightness = $('#brightness').value;
 
         setInterval(function(){ 
             if($('brightness').value != brightness) {
-                last_brightness = $('brightness').value;
+                last_brightness = $('#brightness').value;
 
                 $.ajax({
                     url: '{{ url_for("FUN_led_b") }}',
