@@ -23,7 +23,7 @@ def stripLoop():
             func, params = q.get()
             q.task_done()
 
-        func(*params)
+        func(strip.getColor(*params))
 
 threading.Thread(target=stripLoop, daemon=True).start()
 
