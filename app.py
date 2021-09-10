@@ -28,7 +28,9 @@ def FUN_led_p():
     color = request.form.get('color').lower()
     
     rgb = colors.get(color, (0, 0, 0))
+    brightness = int(request.form.get('brightness', 0)) * 255 // 100
 
+    strip.changeBrightness(brightness)
     strip.colorWipe(strip.getColor(*rgb))
 
     return render_template("led.html")

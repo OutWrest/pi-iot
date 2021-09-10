@@ -8,14 +8,17 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <button type="button" class="btn btn-danger">Red</button>
+                <button type="button" class="btn btn-danger w-100">Red</button>
             </div>
             <div class="col-md-4">
-                <button type="button" class="btn btn-success">Green</button>
+                <button type="button" class="btn btn-success w-100">Green</button>
             </div>
             <div class="col-md-4">
-                <button type="button" class="btn btn-primary">Blue</button>
+                <button type="button" class="btn btn-primary w-100">Blue</button>
             </div>
+        </div>
+        <div class="row ">
+            <input type="range" class="form-range" id="brightness">
         </div>
     </div>
 
@@ -26,7 +29,8 @@
                     url: '{{ url_for("FUN_led") }}',
                     type: 'POST',
                     data: {
-                        color: $(this).text()
+                        color: $(this).text(),
+                        brightness: $('#brightness').val()
                     }
                 });
             });

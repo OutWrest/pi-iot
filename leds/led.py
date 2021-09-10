@@ -6,6 +6,9 @@ class LEDStrip:
         self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 255, LED_CHANNEL)
         self.strip.begin()
 
+    def changeBrightness(self, brightness: int) -> None:
+        self.strip.setBrightness(brightness)
+
     def colorWipe(self, color, wait_ms=50):
         """Wipe color across display a pixel at a time."""
         for i in range(self.strip.numPixels()):
