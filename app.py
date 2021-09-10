@@ -7,6 +7,8 @@ from parse import *
 # INTI control 
 strip = new_strip(300)
 
+strip.changeBrightness(20)
+
 # INIT
 funcs = {
     'colorWipe': strip.colorWipe
