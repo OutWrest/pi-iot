@@ -1,10 +1,34 @@
-import os
-import datetime
-import hashlib
+import json
+import threading, queue
 from flask import Flask, session, url_for, redirect, render_template, request, abort, flash
 from leds import new_strip
+from parse import *
 
+# INTI control 
 strip = new_strip(300)
+last = None
+
+# INIT
+funcs = {
+    'colorWipe': strip.colorWipe
+}
+
+q = queue.Queue()
+
+def stripLoop():
+    while True:
+        if q.empty():
+            if last:
+                func, params = last
+            continue
+        else:
+            func, params = q.get()
+            last = func, params
+            q.task_done()
+
+        func(*params)
+
+threading.Thread(target=stripLoop, daemon=True).start()
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -19,21 +43,25 @@ def FUN_led():
 
 @app.route("/led", methods = ["POST"])
 def FUN_led_p():
-    colors = {
-        'red': (255, 0, 0),
-        'green': (0, 255, 0),
-        'blue': (0, 0, 255),
-    }
+    global rgb, brightness, funcs
 
-    color = request.form.get('color').lower()
+    func = funcs.get(request.form.get('func'))
+    args = parse_arg(request.form.get('args'))
+
+    if func not in funcs:
+        return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
     
-    rgb = colors.get(color, (0, 0, 0))
+    q.put(func, args)
+
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+@app.route("/led/brightness", methods = ["POST"])
+def FUN_led_b():
     brightness = int(request.form.get('brightness', 0)) * 255 // 100
-
     strip.changeBrightness(brightness)
-    strip.colorWipe(strip.getColor(*rgb))
 
-    return render_template("led.html")
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

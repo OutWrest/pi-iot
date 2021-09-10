@@ -69,3 +69,5 @@ class LEDStrip:
                 time.sleep(wait_ms/1000.0)
                 for i in range(0, self.strip.numPixels(), 3):
                     self.strip.setPixelColor(i+q, 0)
+
+    
