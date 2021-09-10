@@ -9,7 +9,7 @@ strip = new_strip(300)
 
 # INIT
 funcs = {
-    'colorWipe': print
+    'colorWipe': strip.colorWipe
 }
 
 q = queue.Queue()
