@@ -46,23 +46,15 @@
             });
         });
 
-        let last_brightness = $('#brightness').val();
-
-        setInterval(function(){ 
-            if($('#brightness').val() != brightness) {
-                last_brightness = $('#brightness').val();
-
-                $.ajax({
-                    url: '{{ url_for("FUN_led_b") }}',
-                    type: 'POST',
-                    data: {
-                        brightness: last_brightness
-                    }
-                });
-
-                console.log('brightness sent: ' + last_brightness);
-            }
-        }, 5000);
+        $(document).on('input', '#brightness', function() {
+            $.ajax({
+                url: '{{ url_for("FUN_led_b") }}',
+                type: 'POST',
+                data: {
+                    brightness: $('#brightness').val()
+                }
+            });
+        });
         
     </script>
     
