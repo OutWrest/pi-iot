@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div class="row mt-2">
             <div class="col-md-4">
-                <button type="button" class="btn btn-danger w-100" func="colorWhipe" args="(255, 0, 0)">Red</button>
+                <button type="button" class="btn btn-danger w-100" func="colorWipe" args="(255, 0, 0)">Red</button>
             </div>
             <div class="col-md-4">
                 <button type="button" class="btn btn-success w-100" func="colorWipe" args="(0, 255, 0)">Green</button>
@@ -30,12 +30,17 @@
     <script>
         $(function() {
             $('button').click(function() {
+                var func = $(this).attr('func');
+                var args = $(this).attr('args');
                 $.ajax({
-                    url: '{{ url_for("FUN_led") }}',
+                    url: '{{ url_for("FUN_led_p") }}',
                     type: 'POST',
                     data: {
-                        func: $(this).prop("func")//,
-                        //args: $(this).prop("args")
+                        func: func,
+                        args: args
+                    },
+                    success: function(data) {
+                        console.log(data);
                     }
                 });
             });
