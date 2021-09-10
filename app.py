@@ -42,6 +42,8 @@ def FUN_led():
 def FUN_led_p():
     global rgb, brightness, funcs
 
+    print(request.form)
+
     func = funcs.get(request.form.get('func'))
     args = parse_arg(request.form.get('args'))
 
