@@ -1,11 +1,11 @@
 import json
 import threading, queue
 from flask import Flask, session, url_for, redirect, render_template, request, abort, flash
-#from leds import new_strip
+from leds import new_strip
 from parse import *
 
 # INTI control 
-#strip = new_strip(300)
+strip = new_strip(300)
 
 # INIT
 funcs = {
@@ -25,7 +25,7 @@ def stripLoop():
 
         func(*params)
 
-#threading.Thread(target=stripLoop, daemon=True).start()
+threading.Thread(target=stripLoop, daemon=True).start()
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -55,7 +55,8 @@ def FUN_led_p():
 @app.route("/led/brightness", methods = ["POST"])
 def FUN_led_b():
     brightness = int(request.form.get('brightness', 0)) * 255 // 100
-    #strip.changeBrightness(brightness)
+
+    strip.changeBrightness(brightness)
 
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
