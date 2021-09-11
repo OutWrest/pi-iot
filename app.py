@@ -58,9 +58,12 @@ def FUN_led_b():
     brightness = int(request.form.get('brightness', 0)) * 255 // 100
 
     strip.changeBrightness(brightness)
-    print("SET BRIGHTNESS TO:", brightness)
 
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+@app.route("/led/queue", methods = ["GET"])
+def FUN_led_q():
+    return json.dumps({'success':True, 'queue':q.qsize()}), 200, {'ContentType':'application/json'}
 
 
 if __name__ == "__main__":

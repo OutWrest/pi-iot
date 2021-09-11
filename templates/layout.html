@@ -8,13 +8,16 @@
 
 <ul class="nav justify-content-center">
     <li class="nav-item">
-      <a class="nav-link active" href="#">Pi Panel</a>
+      <a class="nav-link active" href="/">Pi Panel</a>
     </li>
 </ul>
 
 <div class="container">
   
-  <h1>{% block page_title %}{% endblock %}</h1>
+  <div class="row">
+    <h1 id="page_title" class="col">{% block page_title %}{% endblock %}</h1>
+    <h3 id="page_subtitle" class="col" style="text-align: right; vertical-align: middle; display: inline-block;">{% block page_subtitle %}{% endblock %}</h2>
+  </div>
   
   <p>{% block body %}{% endblock %}</p>
 

@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block page_title %}LED Panel{% endblock %}
 
+{% block page_subtitle %}
+    Current queue: 0
+{% endblock %}
+
 {% block body %}
-
     {{ super() }}
-
     <div class="container-fluid">
         <div class="row mt-2">
             <div class="col-md-4">
@@ -55,6 +57,16 @@
                 }
             });
         });
+
+        setInterval(function() {
+            $.ajax({
+                url: '{{ url_for("FUN_led_q") }}',
+                type: 'GET',
+                success: function(data) {
+                    $('#page_subtitle').text('Current queue: ' + JSON.parse(data).queue);
+                }
+            });
+        }, 500);
         
     </script>
     
