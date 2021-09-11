@@ -13,6 +13,10 @@ funcs = {
     'colorWipe': strip.colorWipe
 }
 
+funcs_repeat = [
+    strip.colorWipe
+]
+
 q = queue.Queue()
 
 def stripLoop():
@@ -49,7 +53,8 @@ def FUN_led_p():
     if not func:
         return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
     
-    q.put((func, args))
+    if q.qsize() == 0 or q.queue[-1] != (func, args):
+        q.put((func, args))
 
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
