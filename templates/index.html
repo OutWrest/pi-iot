@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block page_title %}Welcome{% endblock %}
+
+{% block body %}
+
+    {{ super() }}
+
+    <p>This is a Raspberry Pi Web panel developed for the Raspberry Pi 7inch Display.</p>
+    <p>The main purpose is to have IOT control using the Raspberry Display as a control center</p>
+    <ul>
+        <li><a href="/led">Control LEDs</li>
+    </ul>
+
+    <p>For more tools please visit <a href="https://github.com/OutWrest">my GitHub page</a>.</p>
+
+{% endblock %}

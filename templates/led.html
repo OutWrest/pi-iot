@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block page_title %}LED Panel{% endblock %}
+
+{% block page_subtitle %}
+    Current queue: 0
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+    <div class="container-fluid">
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <button type="button" class="btn btn-danger w-100" func="colorWipe" args="(255, 0, 0)">Red</button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success w-100" func="colorWipe" args="(0, 255, 0)">Green</button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary w-100" func="colorWipe" args="(0, 0, 255)">Blue</button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <input type="range" class="form-range" id="brightness">
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary w-100">Quick Events</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $('button').click(function() {
+                var func = $(this).attr('func');
+                var args = $(this).attr('args');
+                $.ajax({
+                    url: '{{ url_for("FUN_led_p") }}',
+                    type: 'POST',
+                    data: {
+                        func: func,
+                        args: args
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+        });
+
+        $(document).on('input', '#brightness', function() {
+            $.ajax({
+                url: '{{ url_for("FUN_led_b") }}',
+                type: 'POST',
+                data: {
+                    brightness: $('#brightness').val()
+                }
+            });
+        });
+
+        setInterval(function() {
+            $.ajax({
+                url: '{{ url_for("FUN_led_q") }}',
+                type: 'GET',
+                success: function(data) {
+                    $('#page_subtitle').text('Current queue: ' + JSON.parse(data).queue);
+                }
+            });
+        }, 500);
+        
+    </script>
+    
+{% endblock %}
