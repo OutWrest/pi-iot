@@ -3,7 +3,7 @@ from rpi_ws281x import *
 
 class LEDStrip:
     def __init__(self, LED_COUNT: int, LED_PIN: int = 18, LED_FREQ_HZ: int = 800000, LED_DMA: int = 10, LED_INVERT: bool = False, LED_CHANNEL: int = 0) -> None:
-        self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 255, LED_CHANNEL)
+        self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 255, LED_CHANNEL, ws.WS2812_STRIP)
         self.strip.begin()
 
     def changeBrightness(self, brightness: int) -> None:
