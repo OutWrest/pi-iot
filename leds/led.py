@@ -9,8 +9,9 @@ class LEDStrip:
     def changeBrightness(self, brightness: int) -> None:
         self.strip.setBrightness(brightness)
 
-    def show(self) -> None:
+    def show(self, wait_ms=50) -> None:
         self.strip.show()
+        time.sleep(wait_ms)
 
     def colorWipe(self, color, wait_ms=25):
         """Wipe color across display a pixel at a time."""

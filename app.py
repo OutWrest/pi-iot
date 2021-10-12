@@ -18,12 +18,6 @@ funcs = {
     'theaterChase': strip.theaterChase,
 }
 
-funcs_repeat = [
-    strip.colorWipe,
-    strip.theaterChaseRainbow,
-    strip.theaterChase
-]
-
 q = queue.Queue()
 
 def stripLoop():
@@ -31,7 +25,7 @@ def stripLoop():
         func, color, params = q.get()
         q.task_done()
 
-        if func in funcs_repeat and q.qsize() == 0:
+        if q.qsize() == 0:
             q.put((func, color, params))
 
         if color:
