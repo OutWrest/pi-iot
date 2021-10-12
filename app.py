@@ -7,6 +7,7 @@ from parse import *
 # INTI control 
 strip = new_strip(300)
 strip.show()
+strip.changeBrightness(255)
 
 # INIT
 funcs = {
@@ -71,6 +72,7 @@ def FUN_led_p():
 
 @app.route("/led/brightness", methods = ["POST"])
 def FUN_led_b():
+    global strip
     brightness = int(request.form.get('brightness', 0)) * 255 // 100
 
     strip.changeBrightness(brightness)
