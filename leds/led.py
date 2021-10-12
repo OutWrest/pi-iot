@@ -12,14 +12,14 @@ class LEDStrip:
     def show(self) -> None:
         self.strip.show()
 
-    def colorWipe(self, color, wait_ms=50):
+    def colorWipe(self, color, wait_ms=25):
         """Wipe color across display a pixel at a time."""
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColor(i, color)
             self.strip.show()
             time.sleep(wait_ms/1000.0)
 
-    def theaterChase(self, color, wait_ms=50, iterations=10):
+    def theaterChase(self, color, wait_ms=25, iterations=10):
         """Movie theater light style chaser animation."""
         for j in range(iterations):
             for q in range(3):
@@ -30,9 +30,14 @@ class LEDStrip:
                 for i in range(0, self.strip.numPixels(), 3):
                     self.strip.setPixelColor(i+q, 0)
 
+    def setColor(self, color) -> None:
+        for i in range(self.strip.numPixels()):
+            self.strip.setPixelColor(i, color)
+        self.strip.show()
+
     @staticmethod
-    def getColor(r: int = 0, g: int = 0, b: int = 0) -> Color:
-        return Color(r, g, b)
+    def getColor(r: int = 0, g: int = 0, b: int = 0, *args) -> Color:
+        return Color(r, g, b), *args
 
     @staticmethod
     def wheel(pos):
@@ -62,7 +67,7 @@ class LEDStrip:
             self.strip.show()
             time.sleep(wait_ms/1000.0)
 
-    def theaterChaseRainbow(self, wait_ms=50):
+    def theaterChaseRainbow(self, wait_ms=25):
         """Rainbow movie theater light style chaser animation."""
         for j in range(256):
             for q in range(3):
@@ -73,4 +78,3 @@ class LEDStrip:
                 for i in range(0, self.strip.numPixels(), 3):
                     self.strip.setPixelColor(i+q, 0)
 
-    

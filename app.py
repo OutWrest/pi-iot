@@ -10,25 +10,37 @@ strip.show()
 
 # INIT
 funcs = {
-    'colorWipe': strip.colorWipe
+    'colorWipe': strip.colorWipe,
+    'setColor': strip.setColor,
+    'rainbow': strip.rainbow,
+    'theaterChaseRainbow': strip.theaterChaseRainbow,
+    'theaterChase': strip.theaterChase,
 }
 
 funcs_repeat = [
-    strip.colorWipe
+    strip.colorWipe,
+    strip.theaterChaseRainbow,
+    strip.theaterChase
 ]
 
 q = queue.Queue()
 
 def stripLoop():
     while True:
-        if q.qsize() == 1:
-            func, params = q.get()
-            q.put((func, params))
-        else:
-            func, params = q.get()
-            q.task_done()
+        func, color, params = q.get()
+        q.task_done()
 
+        if func in funcs_repeat:
+            q.put((func, color, params))
+
+        if color:
+            color = strip.getColor(*color)
+            func(color, *params)
+        else:
+            func(*params)
         func(strip.getColor(*params))
+
+        #print(func, color, *params)
 
 threading.Thread(target=stripLoop, daemon=True).start()
 
@@ -48,13 +60,14 @@ def FUN_led_p():
     global rgb, brightness, funcs
 
     func = funcs.get(request.form.get('func'))
+    color = parse_arg(request.form.get('color'))
     args = parse_arg(request.form.get('args'))
 
     if not func:
         return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
     
     if q.qsize() == 0 or q.queue[-1] != (func, args):
-        q.put((func, args))
+        q.put((func, color, args))
 
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 

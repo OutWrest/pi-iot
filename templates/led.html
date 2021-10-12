@@ -8,42 +8,117 @@
 {% block body %}
     {{ super() }}
     <div class="container-fluid">
-        <div class="row mt-2">
-            <div class="col-md-4">
-                <button type="button" class="btn btn-danger w-100" func="colorWipe" args="(255, 0, 0)">Red</button>
-            </div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-success w-100" func="colorWipe" args="(0, 255, 0)">Green</button>
-            </div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-primary w-100" func="colorWipe" args="(0, 0, 255)">Blue</button>
-            </div>
+        <div class="row mt-2" id="qColor">
+            <div class="pickr pcenter"></div>
         </div>
         <div class="row mt-2">
             <input type="range" class="form-range" id="brightness">
         </div>
         <div class="row mt-2">
             <div class="col-md-3">
-                <button type="button" class="btn btn-primary w-100">Quick Events</button>
+                <button type="button" id="ModalToggle" class="btn btn-primary w-100">Quick Events</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal control panel -->
+    <div class="modal fade" id="controlPanel" tabindex="-1" role="dialog" aria-labelledby="controlPanelLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="bottom: 0;position: fixed;top: 290; left: 0;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="controlPanelLabel">Control Panel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="BtnGroup">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary w-100" func="colorWipe">Color wipe</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary w-100" func="rainbow">Rainbow</button>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary w-100" func="theaterChaseRainbow">Theater Chase Rainbow</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary w-100" func="theaterChase">Theater Chase</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        const pickr = Pickr.create({
+            el: '.pickr',
+            theme: 'nano',
+            showAlways: true,
+            inline: true,
+            useAsButton: true,
+            default: "#ff0000",
+            position: 'top-middle',
+            components: {
+                preview: true,
+                opacity: false,
+                hue: true
+            }
+        });
+        
+        // rate limit
+        var lastColorChange
+        pickr.on('change', (color) => {
+            const rgb = color.toRGBA();
+            rgb.pop();
+            // get current time
+            const time = new Date().getTime();
+            // if last color change was less than 100 ms ago, ignore
+            if (time - lastColorChange < 50) {
+                return;
+            }
+
+            // set last color change
+            lastColorChange = time;
+            var color = '(' + rgb.join(',') + ')';
+
+            $.ajax({
+                url: '{{ url_for("FUN_led_p") }}',
+                type: 'POST',
+                data: {
+                    func: 'setColor',
+                    color: color,
+                    args: '()'
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+
+
+
         $(function() {
-            $('button').click(function() {
-                var func = $(this).attr('func');
-                var args = $(this).attr('args');
-                $.ajax({
-                    url: '{{ url_for("FUN_led_p") }}',
-                    type: 'POST',
-                    data: {
-                        func: func,
-                        args: args
-                    },
-                    success: function(data) {
-                        console.log(data);
-                    }
+            $("#BtnGroup").find('button').each(function() {
+                $(this).click(function() {
+                    var func = $(this).attr('func');
+                    var color = pickr.getColor().toRGBA();
+                    color.pop();
+                    $.ajax({
+                        url: '{{ url_for("FUN_led_p") }}',
+                        type: 'POST',
+                        data: {
+                            func: func,
+                            color: '(' + color.join(',') + ')',
+                            args: '()'
+                        },
+                        success: function(data) {
+                            console.log(data);
+                        }
+                    });
                 });
             });
         });
@@ -57,6 +132,17 @@
                 }
             });
         });
+
+        // modal toggle
+        $(document).on('click', '#ModalToggle', function() {
+            $('#controlPanel').modal('toggle');
+        });
+
+        // modal close
+        $(document).on('click', '#controlPanel .close', function() {
+            $('#controlPanel').modal('hide');
+        });
+
 
         setInterval(function() {
             $.ajax({
