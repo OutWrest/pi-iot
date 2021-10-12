@@ -30,7 +30,7 @@ def stripLoop():
         func, color, params = q.get()
         q.task_done()
 
-        if func in funcs_repeat:
+        if func in funcs_repeat and q.qsize() == 0:
             q.put((func, color, params))
 
         if color:
