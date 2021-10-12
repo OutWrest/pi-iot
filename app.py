@@ -38,8 +38,6 @@ def stripLoop():
             func(color, *params)
         else:
             func(*params)
-        func(strip.getColor(*params))
-
         #print(func, color, *params)
 
 threading.Thread(target=stripLoop, daemon=True).start()
