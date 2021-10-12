@@ -68,6 +68,12 @@
                 hue: true
             }
         });
+
+        function floatListtoInt(list) {
+            return list.map(function(item) {
+                return parseInt(item);
+            });
+        }
         
         // rate limit
         var lastColorChange
@@ -83,7 +89,7 @@
 
             // set last color change
             lastColorChange = time;
-            var color = '(' + rgb.join(',') + ')';
+            var color = '(' + floatListtoInt(rgb).join(',') + ')';
 
             $.ajax({
                 url: '{{ url_for("FUN_led_p") }}',
@@ -100,7 +106,6 @@
         });
 
 
-
         $(function() {
             $("#BtnGroup").find('button').each(function() {
                 $(this).click(function() {
@@ -112,7 +117,7 @@
                         type: 'POST',
                         data: {
                             func: func,
-                            color: '(' + color.join(',') + ')',
+                            color: '(' + floatListtoInt(color).join(',') + ')',
                             args: '()'
                         },
                         success: function(data) {

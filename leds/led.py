@@ -36,8 +36,8 @@ class LEDStrip:
         self.strip.show()
 
     @staticmethod
-    def getColor(r: int = 0, g: int = 0, b: int = 0, *args) -> Color:
-        return Color(r, g, b), *args
+    def getColor(r: int = 0, g: int = 0, b: int = 0) -> Color:
+        return Color(r, g, b)
 
     @staticmethod
     def wheel(pos):
