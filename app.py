@@ -32,13 +32,15 @@ def stripLoop():
 
         if q.qsize() == 0 and func not in funcs_no_repeat:
             q.put((func, color, params))
+            print("Put back into queue")
 
         if color:
             color = strip.getColor(*color)
             func(color, *params)
         else:
             func(*params)
-        #print(func, color, *params)
+        
+        print(func, color, *params)
 
 threading.Thread(target=stripLoop, daemon=True).start()
 
