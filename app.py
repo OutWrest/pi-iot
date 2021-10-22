@@ -18,10 +18,10 @@ funcs = {
     'theaterChase': strip.theaterChase,
 }
 
-funcs_no_repeat = {
-    'colorWipe': strip.colorWipe,
-    'setColor': strip.setColor,
-}
+funcs_no_repeat = [
+    strip.colorWipe,
+    strip.setColor
+]
 
 q = queue.Queue()
 
