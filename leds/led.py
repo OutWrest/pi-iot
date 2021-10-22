@@ -61,7 +61,7 @@ class LEDStrip:
                 # set all the pixels to the transition of the colors
                 #self.strip.setPixelColor(i, Color(r1 + (r2 - r1) * j // max_diff, g1 + (g2 - g1) * j // max_diff, b1 + (b2 - b1) * j // max_diff))
                 #self.strip.show()
-                time.sleep(wait_ms/1000.0)
+                #time.sleep(wait_ms/1000.0)
                 
                 print(r1 + (r2 - r1) * j // max_diff, g1 + (g2 - g1) * j // max_diff, b1 + (b2 - b1) * j // max_diff)
 
