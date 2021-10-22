@@ -53,12 +53,24 @@ class LEDStrip:
             pos -= 170
             return Color(0, pos * 3, 255 - pos * 3)
 
-    def rainbow(self, wait_ms=300, iterations=1):
-        for i in range(self.strip.numPixels()):
-            self.strip.setPixelColor(i, self.wheel((int(i * 256 / self.strip.numPixels()) + self.rgb_offset) & 255))
-        self.strip.show()
-        time.sleep(wait_ms/1000.0)
-        self.rgb_offset += 1
+    def transition(self, r1, g1, b1, r2, g2, b2, wait_ms=15):
+        max_diff = max(abs(r1 - r2), abs(g1 - g2), abs(b1 - b2))
+
+        for j in range(max_diff + 1):
+            for i in range(self.strip.numPixels()):
+                # set all the pixels to the transition of the colors
+                self.strip.setPixelColor(i, Color(r1 + (r2 - r1) * j // max_diff, g1 + (g2 - g1) * j // max_diff, b1 + (b2 - b1) * j // max_diff))
+                self.strip.show()
+                time.sleep(wait_ms/1000.0)
+
+
+    def rainbow(self, wait_ms=30, iterations=1):
+        self.transition(self, 255, 0, 0, 0, 255, 0, wait_ms, iterations)
+        self.transition(self, 0, 255, 0, 0, 0, 255, wait_ms, iterations)
+        self.transition(self, 0, 0, 255, 0, 0, 255, wait_ms, iterations)
+        self.transition(self, 255, 0, 255, 0, 0, 255, wait_ms, iterations)
+        self.transition(self, 255, 255, 0, 255, 255, 0, wait_ms, iterations)
+        
 
     def rainbowCycle(self, wait_ms=20, iterations=5):
         """Draw rainbow that uniformly distributes itself across all pixels."""
