@@ -64,7 +64,7 @@ class LEDStrip:
                 print(r1 + (r2 - r1) * j // max_diff, g1 + (g2 - g1) * j // max_diff, b1 + (b2 - b1) * j // max_diff)
 
 
-    def rainbow(self, wait_ms=100, iterations=1):
+    def rainbow(self, wait_ms=20, iterations=1):
         self.transition(255, 0, 0, 0, 255, 0, wait_ms)
         self.transition(0, 255, 0, 0, 0, 255, wait_ms)
         self.transition(0, 0, 255, 0, 0, 255, wait_ms)
