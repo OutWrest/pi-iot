@@ -59,9 +59,11 @@ class LEDStrip:
         for j in range(max_diff + 1):
             for i in range(self.strip.numPixels()):
                 # set all the pixels to the transition of the colors
-                self.strip.setPixelColor(i, Color(r1 + (r2 - r1) * j // max_diff, g1 + (g2 - g1) * j // max_diff, b1 + (b2 - b1) * j // max_diff))
-                self.strip.show()
+                #self.strip.setPixelColor(i, Color(r1 + (r2 - r1) * j // max_diff, g1 + (g2 - g1) * j // max_diff, b1 + (b2 - b1) * j // max_diff))
+                #self.strip.show()
                 time.sleep(wait_ms/1000.0)
+                
+                print(r1 + (r2 - r1) * j // max_diff, g1 + (g2 - g1) * j // max_diff, b1 + (b2 - b1) * j // max_diff)
 
 
     def rainbow(self, wait_ms=30, iterations=1):
