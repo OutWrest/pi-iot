@@ -65,11 +65,11 @@ class LEDStrip:
 
 
     def rainbow(self, wait_ms=30, iterations=1):
-        self.transition(self, 255, 0, 0, 0, 255, 0, wait_ms, iterations)
-        self.transition(self, 0, 255, 0, 0, 0, 255, wait_ms, iterations)
-        self.transition(self, 0, 0, 255, 0, 0, 255, wait_ms, iterations)
-        self.transition(self, 255, 0, 255, 0, 0, 255, wait_ms, iterations)
-        self.transition(self, 255, 255, 0, 255, 255, 0, wait_ms, iterations)
+        self.transition(255, 0, 0, 0, 255, 0, wait_ms)
+        self.transition(0, 255, 0, 0, 0, 255, wait_ms)
+        self.transition(0, 0, 255, 0, 0, 255, wait_ms)
+        self.transition(255, 0, 255, 0, 0, 255, wait_ms)
+        self.transition(255, 255, 0, 255, 255, 0, wait_ms)
         
 
     def rainbowCycle(self, wait_ms=20, iterations=5):
