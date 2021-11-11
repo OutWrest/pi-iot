@@ -5,7 +5,7 @@ from leds import new_strip
 from parse import *
 
 # INTI control 
-strip = new_strip(300)
+strip = new_strip(600)
 strip.show()
 strip.changeBrightness(255)
 
